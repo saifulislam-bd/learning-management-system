@@ -3,6 +3,7 @@ import cors from "cors";
 import connectDB from "./config/dbConnection.js";
 import { config } from "dotenv";
 import errorMiddleware from "./middleware/errorMiddleware.js";
+import authRoute from "./routes/authRoute.js";
 
 const PORT = process.env.PORT || 5000;
 const app = express();
@@ -11,6 +12,7 @@ config();
 // middlewares
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
 app.use(
   cors({
     origin: process.env.CLIENT_URL,
@@ -18,6 +20,8 @@ app.use(
     allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
+
+app.use("/api/v1/auth", authRoute);
 
 //error handler
 app.use(errorMiddleware);
